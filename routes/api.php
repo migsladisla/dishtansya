@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Login API route with a max 5 attempt and 5 minute cooldown
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,5');
+
+// Regiser route
+Route::post('/register', [AuthController::class, 'register']);
+
+// Order route
+Route::post('/order', [OrderController::class, 'store']);
